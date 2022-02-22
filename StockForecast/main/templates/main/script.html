@@ -1,0 +1,67 @@
+
+{% extends "main\base.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container">
+    <form method="post" action="">
+        {% csrf_token %}
+    <select> style="width: 100px;">
+        {% for l in liveData%}
+        <option style="width: 50px;" name="symbol">{{l.symbol}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="submit">
+    </form>
+</div>
+
+    <div class="container d-inline-block" style="margin:50px; width: 400px;">
+        <canvas id="myCanvas">
+      
+        </canvas>
+      </div>
+
+      <div class="container d-inline-block" style="margin:50px; width: 400px;">
+        <canvas id="myCanvas2">
+      
+        </canvas>
+      </div>
+    <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+
+
+<div class="container">
+  <table class="table table-hover">
+  <thead>
+    <tr class="table-dark">
+      <th scope="col">S.No.</th>
+      <th scope="col">turnover</th>
+      <th scope="col">Closing</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+  {% for items in history%}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td >{{items.}}</td>
+      <td>{{value}}</td>
+
+    </tr>
+   {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{{symbol}}
+
+
+
+
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.stock.min.js"></script>
+
+<script src = "{% static 'js/stockChart.js' %}"></script>
+
+{% endblock body%}

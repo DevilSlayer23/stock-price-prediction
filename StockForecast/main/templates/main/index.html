@@ -1,0 +1,52 @@
+{% extends "main\base.html" %}
+{% load static %}
+{% block body %}
+
+<div class="container d-inline-block" style="margin:50px; width: 400px;">
+  <canvas id="myCanvas">
+
+  </canvas>
+</div>
+
+
+
+<div class="container">
+
+  <table class="table table-striped" id = "liveTable">
+  <thead>
+    <tr class="table-dark">
+      <th scope="col">S.No.</th>
+      <th scope="col">Symbol</th>
+      <th scope="col">LTP</th>
+      <th scope="col">Open</th>
+      <th scope="col">High</th>
+      <th scope="col">Low</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for d in  liveData%}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{d.symbol}}</td>
+      <td>{{d.ltp}}</td>
+      <td>{{d.open}}</td>
+      <td>{{d.high}}</td>
+      <td>{{d.low}}</td>
+    </tr>
+   {% endfor %}
+  </tbody>
+</table>
+</div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
+
+
+<script>
+$("#liveTable").DataTable();
+
+</script>
+{% endblock body%}
