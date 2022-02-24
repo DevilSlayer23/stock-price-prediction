@@ -1,0 +1,11 @@
+#container {
+    height: 100vh;
+    width: 700px;
+}
+
+.flex-container{
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
