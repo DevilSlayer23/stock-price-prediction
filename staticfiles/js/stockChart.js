@@ -1,51 +1,47 @@
-
-var symbol = 'NABIL'
-
-Highcharts.getJSON('https://www.sharesansar.com/company-chart/history?symbol='+symbol+'&resolution=1D&from=1514764800&to=1645548668', function (data) {
-    ohlc =[]
-    for(var i = 0; i<data.t.length; i++){
-        var date = data['t'][i]*1000;
-        var open = data['o'][i];
-        var high = data['h'][i];
-        var low = data['l'][i];
-        var close = data['c'][i];
-        ohlc.push([date,parseFloat(open),parseFloat(high),parseFloat(low),parseFloat(close)])       
-    }
-
-    Highcharts.stockChart('container', {
+ const ctx = document.getElementById('myCanvas').getContext('2d');
 
 
-        rangeSelector: {
-            selected: 1
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Cases',
+                data: CaseData,
+                backgroundColor: [
+                    'Blue',
+                ],
+                borderColor: 'blue',
+                borderAlign : 'inner',
+                borderWidth : "0.1",
+                fill: false,
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4,
+            },
+        ]
         },
-        navigator: {
-            series: {
-                color: Highcharts.getOptions().colors[0]
+        options: {
+            responsive: true,
+            elements: {
+
+                line: {
+                    tension: 0, // disables bezier curves
+                }
+            },
+            scales: {
+                x:{
+                    offset : false,
+                    type : "time",
+                    time : {
+                        unit : "month",
+                    },
+                    grid : {
+                        offset : false,
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
             }
-        },
-
-        title: {
-            text: symbol+' Stock Price'
-        },
-
-        series: [{
-            type: 'hollowcandlestick',
-            name: symbol+' Stock Price',
-            data: ohlc,
-            dataGrouping: {
-                units: [
-                    [
-                        'week', // unit name
-                        [1] // allowed multiples
-                    ], [
-                        'month',
-                        [1, 2, 3, 4, 6]
-                    ]
-                ]
-            }
-        }]
+        }
     });
-});
-
-
-

@@ -1,18 +1,16 @@
 {% extends "main/base.html" %}
 {% load static %}
 {% block body %}
-
-<div class="container d-inline-block" style="margin:50px; width: 400px;">
-  <canvas id="myCanvas">
-
-  </canvas>
+<div class="container d-flex justify-content-center"><span class="display-4">Technical Chart</span></div>
+<div class="container d-flex justify-content-center align-items-center" style="margin:50px">
+<iframe src = 'https://nepsealpha.com/trading/chart' style="width: 1200px; height: 500px;"></iframe>
 </div>
 
 
-
+<div class="container d-flex justify-content-center"><span class="display-4">List of Scripts</span></div>
 <div class="container">
 
-  <table class="table table-striped" id = "liveTable">
+  <table class="table" id = "liveTable">
   <thead>
     <tr class="table-dark">
       <th scope="col">S.No.</th>
@@ -47,6 +45,10 @@
 
 <script>
 $("#liveTable").DataTable();
+var liveData = {{liveData | safe}};
+console.log(liveData);
+
+  
 
 </script>
 {% endblock body%}

@@ -1,14 +1,22 @@
 from django.shortcuts import render
+from django.views.generic import View
 import requests
 import json
-# Create your views here.
+from django.http.response import JsonResponse
+from pathlib import Path
+from .lstm import predict
+
+
+
+# # Create your views here.
+
 def index(request):
     data = False
     while(not data):
         try:
             r = requests.get('https://live.nepse.repl.co/api.php')
             liveData = (r.json()["live_data"])
-            # print(liveData)
+            json.dumps(liveData)
             
 
             context = {
@@ -22,24 +30,39 @@ def index(request):
     return render(request, 'main/index.html', context)
 
 
-def script(request):
+class Script(View):
 
-    l = requests.get('https://live.nepse.repl.co/api.php')
-    liveData = (l.json()["live_data"])
+    l = requests.get('https://live.nepse.repl.co/api.php').json()["live_data"]
+    def get(self, request):
+        selectedSymbol = self.l[0]['symbol']
+        liveData = json.dumps(self.l)
+        s = json.dumps(requests.get('https://www.sharesansar.com/company-chart/history?symbol='+selectedSymbol+'&resolution=1D&from=1607792736&to=1609305299').json())
 
-    if request.method == "POST":
-        selectedSymbol = request.POST['symbol']
-        print(type(selectedSymbol))
-    else:
-        selectedSymbol = liveData[0]['symbol']
-        print(selectedSymbol)
+        context = {
+            "liveData": liveData,
+            "symbol" : selectedSymbol,
+            "script" : s,
+        }
+        return render(request,"main/script.html", context)
 
 
-    context = {
-        "liveData": liveData,
-        'symbol' : selectedSymbol
+
+# # async def forecast(request):
+#     data = await predict()
+
+#     return render(request, "main/forecast.html", {'data' : data})
+#     # return history
+
+
+def test(request):
+    data = predict()
+
+    response = {
+        'data' : data
     }
 
-        
+    return JsonResponse(response)
 
-    return render(request, 'main/script.html', context)
+
+def main(request):
+    return render(request, 'main/main.html')
